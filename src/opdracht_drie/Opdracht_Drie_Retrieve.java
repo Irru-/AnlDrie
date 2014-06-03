@@ -13,8 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +35,7 @@ public class Opdracht_Drie_Retrieve {
      */
     public static void main(String[] args) throws ClassNotFoundException {
         try {
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Opdracht_Drie", "anl", "anl");
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Opdracht_Drie_Twee", "anl", "anl");
             conn.setAutoCommit(false);
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -72,26 +70,16 @@ public class Opdracht_Drie_Retrieve {
                                     + "SELECT klas FROm student_klas WHERE studentnr = ("
                                     + "SELECT studentnr FROM students WHERE vnaam = '" + vNaam.get(random) + "' AND anaam = '" + aNaam.get(random) + "'))"
                             );
+                            conn.commit();
                             long eT = System.currentTimeMillis();
                             totalTime = totalTime + (eT - bT);
-//                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
-//
-//                            while (rs2.next()) {
-//                                System.out.println(rs2.getString(1));
-//                            }
-//
-//                            System.out.println("----");
 
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
 
                         try {
-                            conn.commit();
-
                             Thread.sleep(5);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -132,26 +120,15 @@ public class Opdracht_Drie_Retrieve {
                                     + "SELECT klas FROm student_klas WHERE studentnr = ("
                                     + "SELECT studentnr FROM students WHERE vnaam = '" + vNaam.get(random) + "' AND anaam = '" + aNaam.get(random) + "'))"
                             );
+                            conn.commit();
                             long eT = System.currentTimeMillis();
                             totalTime = totalTime + (eT - bT);
-//                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
-//
-//                            while (rs2.next()) {
-//                                System.out.println(rs2.getString(1));
-//                            }
-//
-//                            System.out.println("----");
-
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
 
                         try {
-                            conn.commit();
-
                             Thread.sleep(5);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -161,7 +138,6 @@ public class Opdracht_Drie_Retrieve {
 
                     System.out.println(totalTime
                             + "----" + average);
-
                 }
 
             }, "Thread 1").

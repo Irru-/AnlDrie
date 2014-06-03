@@ -30,6 +30,7 @@ public class Opdracht_Drie_Write {
     protected static int studentNummer1 = 1000000;
     protected static int studentNummer2 = 2000000;
     protected static int studentNummer3 = 3000000;
+    protected static int runs = 600;
 
     /**
      * @param args the command line arguments
@@ -54,7 +55,7 @@ public class Opdracht_Drie_Write {
 
                 @Override
                 public void run() {
-                    while (thread1count < 600) {
+                    while (thread1count < runs) {
                         try {
                             long bT = System.currentTimeMillis();
                             //4.2.1.2 - Voeg student toe
@@ -148,7 +149,7 @@ public class Opdracht_Drie_Write {
 
                 @Override
                 public void run() {
-                    while (thread2count < 600) {
+                    while (thread2count < runs) {
                         try {
                             long bT = System.currentTimeMillis();
                             //4.2.1.2 - Voeg student toe
@@ -242,7 +243,7 @@ public class Opdracht_Drie_Write {
 
                 @Override
                 public void run() {
-                    while (thread3count < 600) {
+                    while (thread3count < runs) {
                         try {
                             long bT = System.currentTimeMillis();
                             //4.2.1.2 - Voeg student toe
