@@ -5,7 +5,6 @@
  */
 package opdracht_drie;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,6 +30,7 @@ public class Opdracht_Drie_Retrieve {
     protected static int studentNummer1 = 1000000;
     protected static int studentNummer2 = 2000000;
     protected static int studentNummer3 = 3000000;
+    protected static int runs = 600;
 
     /**
      * @param args the command line arguments
@@ -52,35 +52,35 @@ public class Opdracht_Drie_Retrieve {
 
                 @Override
                 public void run() {
-                    while (thread1count < 600) {
+                    while (thread1count < runs) {
                         try {
+                            //System.out.println(thread1count);
                             long bT = System.currentTimeMillis();
                             List<String> vNaam = new ArrayList();
                             List<String> aNaam = new ArrayList();
                             stmt = conn.createStatement();
-                            stmt2 = conn.createStatement();
-                            rs = stmt.executeQuery("SELECT * FROM students");
+                            rs = stmt.executeQuery("SELECT vnaam, anaam FROM students");
                             while (rs.next()) {
-                                vNaam.add(rs.getString(2));
-                                aNaam.add(rs.getString(3));
+                                vNaam.add(rs.getString(1));
+                                aNaam.add(rs.getString(2));
                             }
                             Random rand = new Random();
 
                             int random = rand.nextInt(vNaam.size());
 
-                            rs2 = stmt2.executeQuery("SELECT module FROM module_klas WHERE klas = ("
+                            rs = stmt.executeQuery("SELECT module FROM module_klas WHERE klas = ("
                                     + "SELECT klas FROm student_klas WHERE studentnr = ("
                                     + "SELECT studentnr FROM students WHERE vnaam = '" + vNaam.get(random) + "' AND anaam = '" + aNaam.get(random) + "'))"
                             );
                             long eT = System.currentTimeMillis();
                             totalTime = totalTime + (eT - bT);
-                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
-
-                            while (rs2.next()) {
-                                System.out.println(rs2.getString(1));
-                            }
-
-                            System.out.println("----");
+//                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
+//
+//                            while (rs2.next()) {
+//                                System.out.println(rs2.getString(1));
+//                            }
+//
+//                            System.out.println("----");
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -96,16 +96,13 @@ public class Opdracht_Drie_Retrieve {
                             e.printStackTrace();
                         }
                         thread1count++;
-                        try {
-                            stmt.close();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Opdracht_Drie_Retrieve.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+
                     }
                     double average = totalTime / (double) 600;
 
                     System.out.println(totalTime
                             + "----" + average);
+
                 }
 
             }, "Thread 1").
@@ -116,17 +113,16 @@ public class Opdracht_Drie_Retrieve {
 
                 @Override
                 public void run() {
-                    while (thread1count < 600) {
+                    while (thread1count < runs) {
                         try {
                             long bT = System.currentTimeMillis();
                             List<String> vNaam = new ArrayList();
                             List<String> aNaam = new ArrayList();
-                            stmt = conn.createStatement();
                             stmt2 = conn.createStatement();
-                            rs = stmt.executeQuery("SELECT * FROM students");
-                            while (rs.next()) {
-                                vNaam.add(rs.getString(2));
-                                aNaam.add(rs.getString(3));
+                            rs2 = stmt2.executeQuery("SELECT vnaam, anaam FROM students");
+                            while (rs2.next()) {
+                                vNaam.add(rs2.getString(1));
+                                aNaam.add(rs2.getString(2));
                             }
                             Random rand = new Random();
 
@@ -138,13 +134,13 @@ public class Opdracht_Drie_Retrieve {
                             );
                             long eT = System.currentTimeMillis();
                             totalTime = totalTime + (eT - bT);
-                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
-
-                            while (rs2.next()) {
-                                System.out.println(rs2.getString(1));
-                            }
-
-                            System.out.println("----");
+//                            System.out.println(vNaam.get(random) + " " + aNaam.get(random));
+//
+//                            while (rs2.next()) {
+//                                System.out.println(rs2.getString(1));
+//                            }
+//
+//                            System.out.println("----");
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -160,16 +156,12 @@ public class Opdracht_Drie_Retrieve {
                             e.printStackTrace();
                         }
                         thread1count++;
-                        try {
-                            stmt.close();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Opdracht_Drie_Retrieve.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                     }
                     double average = totalTime / (double) 600;
 
                     System.out.println(totalTime
                             + "----" + average);
+
                 }
 
             }, "Thread 1").
